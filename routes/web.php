@@ -11,8 +11,16 @@
 |
 */
 
+// Rotas para filtro
+Route::any('admin/plans/search', 'Admin\PlanController@search')->name('plans.search');
+
+Route::delete('admin/plans/{id}', 'Admin\PlanController@destroy')->name('plans.destroy');
+Route::put('admin/plans/update/{id}', 'Admin\PlanController@update')->name('plans.update');
+Route::get('admin/plans/edit/{id}', 'Admin\PlanController@edit')->name('plans.edit');
+Route::post('admin/plans/store', 'Admin\PlanController@store')->name('plans.store');
+Route::get('admin/plans/create', 'Admin\PlanController@create')->name('plans.create');
 Route::get('admin/plans', 'Admin\PlanController@index')->name('index');
-Route::post('admin/plans/create', 'Admin\PlanController@create')->name('create');
+
 
 
 Route::get('/', function () {
