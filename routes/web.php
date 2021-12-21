@@ -11,6 +11,10 @@
 |
 */
 
+Route::get('admin/plans', 'Admin\PlanController@index')->name('index');
+Route::post('admin/plans/create', 'Admin\PlanController@create')->name('create');
+
+
 Route::get('/', function () {
     return view('welcome');
 });
