@@ -13,6 +13,16 @@ class Plan extends Model
         'description'
     ];
 
+    /*
+     * Um Plano para varios detalhes
+     */
+
+    public function details ()
+    {
+        // Relacionamento de 1 para muitos
+        return $this->hasMany(DetailPlan::class);
+    }
+
     public function search($filter = null)
     {
         $results = $this->where('name', 'LIKE', "%$filter%")
@@ -21,4 +31,5 @@ class Plan extends Model
 
         return $results;
     }
+
 }

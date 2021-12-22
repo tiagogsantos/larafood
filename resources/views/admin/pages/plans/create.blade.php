@@ -7,21 +7,24 @@
 @stop
 
 @section('content')
+
+    @include('admin.includes.alerts')
+
     <div class="card">
         <div class="card-body">
             <form method="post" action="{{ route('plans.store') }}">
                 @csrf
 
                 <div class="form-group">
-                    <input class="form-control" type="text" name="name" placeholder="Digite seu nome">
+                    <input class="form-control" type="text" name="name" value="{{ old('name') }}" placeholder="Digite seu nome">
                 </div>
 
                 <div class="form-group">
-                    <input class="form-control" type="text" name="price" placeholder="Digite o preço do curso">
+                    <input class="form-control" type="text" name="price" value="{{ old('price') }}" placeholder="Digite o preço do curso">
                 </div>
 
                 <div class="form-group">
-                     <textarea class="form-control" placeholder="Digite uma breve descrição" name="description"></textarea>
+                     <textarea class="form-control" placeholder="Digite uma breve descrição" name="description" value="{{ old('description') }}"></textarea>
                 </div>
 
                 <button class="btn btn-success" type="submit">Criar plano</button>

@@ -3,10 +3,13 @@
 @section('title', 'Cadastrar novo Plano')
 
 @section('content_header')
-    <h1>Edotar Plano {{ $plans->name }}</h1>
+    <h1>Editar o - {{ $plans->name }}</h1>
 @stop
 
 @section('content')
+
+    @include('admin.includes.alerts')
+
     <div class="card">
         <div class="card-body">
             <form method="POST" action="{{ route('plans.update', $plans->id) }}">
@@ -18,9 +21,10 @@
                            placeholder="Digite seu nome">
                 </div>
 
-                <div class="form-group">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">R$</span>
                     <input class="form-control" type="text" name="price"
-                           value="R$ {{ number_format($plans->price, 2, ',', '.') }}"
+                           value="{{ $plans->price }}"
                            placeholder="Digite o preço do curso">
                 </div>
 

@@ -11,17 +11,36 @@
 |
 */
 
-// Rotas para filtro
-Route::any('admin/plans/search', 'Admin\PlanController@search')->name('plans.search');
+Route::prefix('admin')->namespace('Admin')->group(function () {
 
-Route::delete('admin/plans/{id}', 'Admin\PlanController@destroy')->name('plans.destroy');
-Route::put('admin/plans/update/{id}', 'Admin\PlanController@update')->name('plans.update');
-Route::get('admin/plans/edit/{id}', 'Admin\PlanController@edit')->name('plans.edit');
-Route::post('admin/plans/store', 'Admin\PlanController@store')->name('plans.store');
-Route::get('admin/plans/create', 'Admin\PlanController@create')->name('plans.create');
-Route::get('admin/plans', 'Admin\PlanController@index')->name('index');
+    /*
+     * Rotas dos detalhes
+     */
 
+    Route::post('plans/{url}/details', 'DetailPlanController@store')->name('details.plan.store');
+    Route::get('plans/{url}/details/create', 'DetailPlanController@create')->name('details.plan.create');
+    Route::get('plans/{url}/details', 'DetailPlanController@index')->name('details.plan.index');
 
+    /*
+     * Rotas de Filtro de Plano
+     */
+    Route::any('plans/search', 'PlanController@search')->name('plans.search');
+
+    /*
+     * Rotas de Planos
+     */
+    Route::delete('plans/{id}', 'PlanController@destroy')->name('plans.destroy');
+    Route::put('plans/update/{id}', 'PlanController@update')->name('plans.update');
+    Route::get('plans/edit/{id}', 'PlanController@edit')->name('plans.edit');
+    Route::post('plans/store', 'PlanController@store')->name('plans.store');
+    Route::get('plans/create', 'PlanController@create')->name('plans.create');
+    Route::get('plans', 'PlanController@index')->name('index');
+
+    /*
+     * Home da Dashboard
+     */
+    Route::get('/', 'PlanController@index')->name('admin.index');
+});
 
 Route::get('/', function () {
     return view('welcome');
