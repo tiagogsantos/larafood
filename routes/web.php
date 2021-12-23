@@ -14,6 +14,7 @@
 Route::prefix('admin')->namespace('Admin')->group(function () {
 
     /* Rotas dos perfils */
+    Route::delete('profiles/{id}', 'ProfileController@destroy')->name('profiles.destroy');
     Route::put('profiles/update/{id}', 'ProfileController@update')->name('profiles.update');
     Route::get('profiles/edit/{id}', 'ProfileController@edit')->name('profiles.edit');
     Route::post('profiles/store', 'ProfileController@store')->name('profiles.store');

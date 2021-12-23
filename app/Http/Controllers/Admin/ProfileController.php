@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdateProfile;
+use App\Models\Plan;
 use App\Models\Profile;
 use Illuminate\Http\Request;
 
@@ -70,5 +71,20 @@ class ProfileController extends Controller
         }
 
         return redirect()->back()->with('success', 'Perfil atualizado com sucesso!');
+    }
+
+    public function destroy ($id)
+    {
+        $profiles = Profile::where('id', $id)->first();
+
+        if (!$profiles) {
+            return redirect()->back()->with('error', 'Ooops, Algo deu errado');
+        }
+
+        $profiles->delete();
+
+        return redirect()->route('profiles.index', [
+            'profiles' => $profiles
+        ])->with('success', 'Perfil deletado com sucesso!');
     }
 }

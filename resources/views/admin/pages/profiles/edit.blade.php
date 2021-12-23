@@ -24,8 +24,14 @@
                 </div>
 
                 <button class="btn btn-success" type="submit">Atualizar perfil</button>
-
             </form>
+
+            <form action="{{ route('profiles.destroy', $profiles->id) }}" method="post">
+                @csrf
+                @method('DELETE')
+                <button class="btn btn-danger mt-4" type="submit">Excluir perfil</button>
+            </form>
+
         </div>
     </div>
 @endsection
