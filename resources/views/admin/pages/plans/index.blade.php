@@ -15,6 +15,7 @@
 @stop
 
 @section('content')
+    @include('admin.includes.alerts')
     <div class="card">
         <div class="card-header">
             <form action="{{ route('plans.search') }}" method="post" class="form form-inline">

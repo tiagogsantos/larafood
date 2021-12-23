@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUpdatePlanDetail;
 use App\Models\DetailPlan;
 use App\Models\Plan;
 use Illuminate\Http\Request;
@@ -57,7 +58,7 @@ class DetailPlanController extends Controller
     /*
      * Metodo para cadastrar no banco de dados
      */
-    public function store (Request $request, $urlPlan)
+    public function store (StoreUpdatePlanDetail $request, $urlPlan)
     {
         // Se não obtiver o plano irei redirecionar
         if (!$plan = $this->plan->where('url', $urlPlan)->first()) {
@@ -73,5 +74,55 @@ class DetailPlanController extends Controller
         $plan->details()->create($request->all());
 
         return redirect()->route('details.plan.index', $plan->url);
+    }
+
+    /*
+     * Metodo para fazer a exibição dos dados preenchidos
+     */
+    public function edit ($urlPlan, $idDetail)
+    {
+        $plan = $this->plan->where('url', $urlPlan)->first();
+        $detail = $this->repository->where('id', $idDetail)->first();
+
+        if (!$plan || !$detail) {
+            redirect()->back();
+        }
+
+        return view('admin.pages.plans.details.edit', [
+            'plan' => $plan,
+            'detail' => $detail
+        ]);
+    }
+
+    public function update (StoreUpdatePlanDetail $request, $urlPlan, $idDetail)
+    {
+        $plan = $this->plan->where('url', $urlPlan)->first();
+        $detail = $this->repository->find($idDetail);
+
+        if (!$plan || !$detail) {
+            redirect()->back();
+        }
+
+       $detail->update($request->all());
+
+        return redirect()->route('details.plan.index', $plan->url);
+    }
+
+    public function destroy ($urlPlan, $idDetail)
+    {
+        $plan = $this->plan->where('url', $urlPlan)->first();
+        $detail = $this->repository->where('id', $idDetail)->first();
+
+        if (empty($plan) && empty($detail)) {
+            return redirect()->back();
+        }
+
+        $detail->delete();
+
+        return view('details.plan.index', [
+            'plan' => $plan
+        ]);
+
+        //return redirect()->route('details.plan.index', $plan->id)->with('message', 'Detalhe deletado com sucesso');
     }
 }

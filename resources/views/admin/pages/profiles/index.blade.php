@@ -1,24 +1,24 @@
 @extends('adminlte::page')
 
-@section('title', "Detalhes do Plano {$plan->name}")
+@section('title', 'Perfil')
 
 @section('content_header')
-    <h1>Detalhes do {{ $plan->name }}</h1>
+    <h1>Perfil</h1>
     <button class="btn btn-success text-white">
-        <a class="text-white" href="{{ route('details.plan.create', $plan->url) }}">Cadastrar novo detalhe <i class="fas fa-plus"></i></a>
+        <a class="text-white" href="{{ route('profiles.create') }}">Cadastrar Perfil <i class="fas fa-plus"></i></a>
     </button>
 
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('admin.index') }}">Dashboard</a> </li>
-        <li class="breadcrumb-item active"><a href="{{ route('index') }}">Planos </a></li>
-        <li class="breadcrumb-item active"><a href="{{ route('details.plan.index', $plan->url) }}">{{ $plan->name }} </a></li>
+        <li class="breadcrumb-item active"><a href="{{ route('profiles.index') }}">Perfil </a></li>
     </ol>
 @stop
 
 @section('content')
+    @include('admin.includes.alerts')
     <div class="card">
         <div class="card-header">
-            <form action="{{ route('plans.search') }}" method="post" class="form form-inline">
+            <form action="#" method="post" class="form form-inline">
                 @csrf
 
                 <input type="text" name="filter" placeholder="Busque pelo filtro" class="form-control" />
@@ -27,26 +27,29 @@
             </form>
         </div>
         <div class="card-body">
-
             <table class="table table-bordered text-center">
                 <thead>
                 <th>Nome</th>
+                <th>Descrição</th>
                 <th>Ações</th>
                 </thead>
-                @foreach($details as $detail)
+                @foreach($profiles as $profile)
                     <tr>
-                        <td>{{ $detail->name }}</td>
-                        <td><a class="btn btn-warning" href="{{ route('details.plan.edit', [$plan->url, $detail->id]) }}">Ver <i class="far fa-edit"></i></a></td>
+                        <td>{{ $profile->name }}</td>
+                        <td>{{ $profile->description }}</td>
+                        <td><a class="btn btn-secondary" href="{{ route('profiles.edit', $profile->id) }}">Ver <i class="far fa-edit"></i></a>
+                            <a class="btn btn-info" href="#">Ver Detalhes do perfil<i class="far fa-edit"></i></a>
+                        </td>
                     </tr>
                 @endforeach
             </table>
         </div>
-        <div class="card-footer">
+      <!-- <div class="card-footer">
             @if(isset($filters))
-                {{ $details->appends($filters)->links() }}
+                {{ $profiles->appends($filters)->links() }}
             @else
-                {{ $details->links() }}
+                {{ $profiles->links() }}
             @endif
-        </div>
+        </div> -->
     </div>
 @stop

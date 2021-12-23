@@ -49,7 +49,7 @@ class PlanController extends Controller
 
         $this->repository->create($data);
 
-        return redirect()->route('index');
+        return redirect()->route('index')->with('success', 'Plano cadastrado com sucesso!');
     }
 
     /*
@@ -83,7 +83,7 @@ class PlanController extends Controller
             return redirect()->back()->withInput()->withErrors();
         }
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Plano atualizado com sucesso!');
     }
 
     /*
@@ -91,10 +91,16 @@ class PlanController extends Controller
      */
     public function destroy ($id)
     {
-        $plans = $this->repository->where('id', $id)->first();
+        $plans = $this->repository
+            ->with('details')
+            ->where('id', $id)->first();
 
         if (!$plans) {
             return redirect()->back();
+        }
+
+        if ($plans->details->count() > 0) {
+            return redirect()->back()->with('error', 'Existem detalhes vinculados a este plano');
         }
 
         $plans->delete();

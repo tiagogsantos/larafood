@@ -231,6 +231,12 @@ return [
             'url'         => 'admin/plans',
             'icon'        => '<i class="fas fa-list-alt"></i>'
         ],
+
+        [
+            'text'        => 'Perfil',
+            'url'         => 'admin/profiles',
+            'icon'        => '<i class="fas fa-address-card"></i>'
+        ],
     ],
 
     /*
