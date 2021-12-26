@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\ACL;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdateProfile;
-use App\Models\Plan;
 use App\Models\Profile;
-use Illuminate\Http\Request;
+use function redirect;
+use function view;
 
 class ProfileController extends Controller
 {

@@ -13,19 +13,21 @@
 
 Route::prefix('admin')->namespace('Admin')->group(function () {
 
-    /*
-     * Rotas de Permissões
-     */
-
+    /* Rotas de Permissões */
     Route::resource('permissions', 'ACL\PermissionController');
 
+
     /* Rotas dos perfils */
+    Route::resource('profiles', 'ACL\ProfileController');
+
+    /*
     Route::delete('profiles/{id}', 'ProfileController@destroy')->name('profiles.destroy');
     Route::put('profiles/update/{id}', 'ProfileController@update')->name('profiles.update');
     Route::get('profiles/edit/{id}', 'ProfileController@edit')->name('profiles.edit');
     Route::post('profiles/store', 'ProfileController@store')->name('profiles.store');
     Route::get('profiles/create', 'ProfileController@create')->name('profiles.create');
     Route::get('profiles', 'ProfileController@index')->name('profiles.index');
+    */
 
     /* Rotas dos detalhes do plano */
     Route::delete('plans/{url}/details/{idDetail}', 'DetailPlanController@destroy')->name('details.plan.destroy');
