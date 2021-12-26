@@ -13,6 +13,12 @@
 
 Route::prefix('admin')->namespace('Admin')->group(function () {
 
+    /*
+     * Rotas de Permissões
+     */
+
+    Route::resource('permissions', 'ACL\PermissionController');
+
     /* Rotas dos perfils */
     Route::delete('profiles/{id}', 'ProfileController@destroy')->name('profiles.destroy');
     Route::put('profiles/update/{id}', 'ProfileController@update')->name('profiles.update');
