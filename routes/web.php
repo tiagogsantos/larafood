@@ -13,6 +13,10 @@
 
 Route::prefix('admin')->namespace('Admin')->group(function () {
 
+    /* Rotas de Permissões de perfil */
+    Route::get('profiles/{id}/permissions', 'ACL\PermissionsProfileController@permissions')->name('profiles.permissions');
+    Route::get('permissions/{id}/profile', 'ACL\PermissionsProfileController@profiles')->name('permissions.profiles');
+
     /* Rotas de Permissões */
     Route::resource('permissions', 'ACL\PermissionController');
 

@@ -38,7 +38,7 @@
                         <td>{{ $profile->name }}</td>
                         <td>{{ $profile->description }}</td>
                         <td><a class="btn btn-secondary" href="{{ route('profiles.edit', $profile->id) }}">Ver <i class="far fa-edit"></i></a>
-                            <a class="btn btn-info" href="#">Ver Detalhes do perfil<i class="far fa-edit"></i></a>
+                        <a class="btn btn-secondary" href="{{ route('profiles.permissions', $profile->id) }}"><i class="far fa-lock-open"></i></a>
                         </td>
                     </tr>
                 @endforeach
