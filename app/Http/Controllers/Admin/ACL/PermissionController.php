@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\ACL;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdatePermission;
-use App\Models\Permissions;
+use App\Models\Permission;
 use Illuminate\Http\Request;
 use function view;
 
@@ -17,7 +17,7 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        $permissions = Permissions::orderBy('id', 'DESC')->get();
+        $permissions = Permission::orderBy('id', 'DESC')->get();
 
         return view('admin.pages.permissions.index', [
            'permissions' => $permissions
@@ -42,7 +42,7 @@ class PermissionController extends Controller
      */
     public function store(StoreUpdatePermission $request)
     {
-        $permissions = Permissions::create($request->all());
+        $permissions = Permission::create($request->all());
 
         if (!$permissions) {
             return redirect()->back()->with('error', 'Não foi possível criar a permissão');
@@ -50,7 +50,7 @@ class PermissionController extends Controller
 
         $permissions->save();
 
-        return redirect()->route('permissions.index')->with('success', 'Permissão criada com sucesso');
+        return redirect()->route('permissions.index')->with('success', 'Permissão criada com sucesso!');
     }
 
     /**
@@ -72,7 +72,7 @@ class PermissionController extends Controller
      */
     public function edit($id)
     {
-        $permissions = Permissions::where('id', $id)->first();
+        $permissions = Permission::where('id', $id)->first();
 
         return view('admin.pages.permissions.edit', [
             'permissions' => $permissions
@@ -88,7 +88,7 @@ class PermissionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $permissions = Permissions::where('id', $id)->first();
+        $permissions = Permission::where('id', $id)->first();
 
         if (!$permissions) {
             return redirect()->back()->with('error', 'Não foi possível realizar a alteração');
@@ -107,7 +107,7 @@ class PermissionController extends Controller
      */
     public function destroy($id)
     {
-        $permissions = Permissions::where('id', $id);
+        $permissions = Permission::where('id', $id);
 
         if (!$permissions) {
             return redirect()->back()->with('error', 'Não foi possível atualizar os dados');

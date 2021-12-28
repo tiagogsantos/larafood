@@ -16,11 +16,11 @@
                 @csrf
 
                 <div class="form-group">
-                    <input class="form-control" type="text" name="name" value="{{ old('name') }}" placeholder="Digite seu nome">
+                    <input class="form-control" type="text" name="name" value="{{ old('name') }}" placeholder="Digite o nome do Plano">
                 </div>
 
                 <div class="form-group">
-                    <input class="form-control" type="text" name="price" value="{{ old('price') }}" placeholder="Digite o preço do curso">
+                    <input class="form-control" type="text" name="price" value="{{ old('price') }}" placeholder="Digite o preço do Plano">
                 </div>
 
                 <div class="form-group">

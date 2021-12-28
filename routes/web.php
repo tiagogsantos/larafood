@@ -14,8 +14,12 @@
 Route::prefix('admin')->namespace('Admin')->group(function () {
 
     /* Rotas de Permissões de perfil */
-    Route::get('profiles/{id}/permissions', 'ACL\PermissionsProfileController@permissions')->name('profiles.permissions');
-    Route::get('permissions/{id}/profile', 'ACL\PermissionsProfileController@profiles')->name('permissions.profiles');
+    Route::get('profiles/{id}/permission/{idPermission}/detach', 'ACL\PermissionProfileController@detachPermissionProfile')->name('profiles.permission.detach');
+    Route::post('profiles/{id}/permissions', 'ACL\PermissionProfileController@attachPermissionsProfile')->name('profiles.permissions.attach');
+    Route::any('profiles/{id}/permissions/create', 'ACL\PermissionProfileController@permissionsAvailable')->name('profiles.permissions.available');
+    Route::get('profiles/{id}/permissions', 'ACL\PermissionProfileController@permissions')->name('profiles.permissions');
+    Route::get('permissions/{id}/profile', 'ACL\PermissionProfileController@profiles')->name('permissions.profiles');
+
 
     /* Rotas de Permissões */
     Route::resource('permissions', 'ACL\PermissionController');

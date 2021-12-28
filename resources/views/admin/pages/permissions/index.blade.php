@@ -17,6 +17,14 @@
 
 @section('content')
     @include('admin.includes.alerts')
+
+    @if(count($permissions) == 0)
+        <div class="alert alert-warning">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <p class="text-white font-weight-bold font-italic"><i class="fas fa-exclamation"></i> Até o momento não possui detalhes cadastrados!</p>
+        </div>
+    @endif
+
     <div class="card">
         <div class="card-header">
             <form action="#" method="post" class="form form-inline">
@@ -39,6 +47,7 @@
                         <td>{{ $permission->name }}</td>
                         <td>{{ $permission->description }}</td>
                         <td><a class="btn btn-secondary" href="{{ route('permissions.edit', $permission->id) }}">Ver <i class="far fa-edit"></i></a>
+                        <a class="btn btn-info" href="{{ route('permissions.profiles', $permission->id) }}">Ver Perfis <i class="far fa-address-book"></i></a>
                         </td>
                     </tr>
                 @endforeach

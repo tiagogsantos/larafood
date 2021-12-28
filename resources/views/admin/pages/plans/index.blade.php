@@ -15,7 +15,16 @@
 @stop
 
 @section('content')
+
     @include('admin.includes.alerts')
+
+    @if(count($plans) == 0)
+        <div class="alert alert-warning">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <p class="text-white font-weight-bold font-italic"><i class="fas fa-exclamation"></i> Até o momento não possui planos cadastrados!</p>
+        </div>
+    @endif
+
     <div class="card">
         <div class="card-header">
             <form action="{{ route('plans.search') }}" method="post" class="form form-inline">
@@ -33,6 +42,11 @@
                         <th>Preço</th>
                         <th>Ações</th>
                     </thead>
+
+                    @if(!$plans)
+                        <h1>Não tem planos aqui</h1>
+                    @endif
+
                     @foreach($plans as $plan)
                         <tr>
                           <td>{{ $plan->name }}</td>

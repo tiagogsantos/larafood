@@ -16,6 +16,14 @@
 
 @section('content')
     @include('admin.includes.alerts')
+
+    @if(count($profiles) == 0)
+        <div class="alert alert-warning">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <p class="text-white font-weight-bold font-italic"><i class="fas fa-exclamation"></i> Até o momento não possui planos cadastrados!</p>
+        </div>
+    @endif
+
     <div class="card">
         <div class="card-header">
             <form action="#" method="post" class="form form-inline">
@@ -38,7 +46,7 @@
                         <td>{{ $profile->name }}</td>
                         <td>{{ $profile->description }}</td>
                         <td><a class="btn btn-secondary" href="{{ route('profiles.edit', $profile->id) }}">Ver <i class="far fa-edit"></i></a>
-                        <a class="btn btn-secondary" href="{{ route('profiles.permissions', $profile->id) }}"><i class="far fa-lock-open"></i></a>
+                            <a href="{{ route('profiles.permissions', $profile->id) }}" class="btn btn-warning"><i class="fas fa-lock"></i></a>
                         </td>
                     </tr>
                 @endforeach

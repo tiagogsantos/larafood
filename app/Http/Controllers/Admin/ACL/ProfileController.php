@@ -12,6 +12,7 @@ class ProfileController extends Controller
 {
     protected $repository;
 
+    // Construtor
     public function __construct(Profile $profiles)
     {
         $this->repository = $profiles;
@@ -37,6 +38,7 @@ class ProfileController extends Controller
         return view ('admin.pages.profiles.create');
     }
 
+    // Metodo para criar um perfil
     public function store (StoreUpdateProfile $request)
     {
         $data = $request->all();
@@ -46,13 +48,15 @@ class ProfileController extends Controller
         return redirect()->route('profiles.index')->with('success', 'Perfil criado com sucesso!');
     }
 
+    // Metodo para editar um perfil
     public function edit ($id)
     {
         $profiles = Profile::where('id', $id)->first();
 
-        if (!$id) {
-            return redirect()->back()
-                ->with('error', 'Não existe perfil para o usuário inserido');
+        if (!$profiles) {
+            return redirect()->route('profiles.index', [
+                'profiles' => $profiles
+            ])->with('error', 'Não existe perfil para o usuário inserido!');
         }
 
         return view('admin.pages.profiles.edit', [
@@ -60,6 +64,7 @@ class ProfileController extends Controller
         ]);
     }
 
+    // Metodo para realizar uma atualização de perfil
     public function update (StoreUpdateProfile $request, $id)
     {
         $profiles = Profile::where('id', $id)->first();
@@ -73,6 +78,7 @@ class ProfileController extends Controller
         return redirect()->back()->with('success', 'Perfil atualizado com sucesso!');
     }
 
+    // Metodo para deletar um perfil
     public function destroy ($id)
     {
         $profiles = Profile::where('id', $id)->first();

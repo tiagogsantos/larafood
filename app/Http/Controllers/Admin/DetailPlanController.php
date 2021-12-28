@@ -73,7 +73,7 @@ class DetailPlanController extends Controller
 
         $plan->details()->create($request->all());
 
-        return redirect()->route('details.plan.index', $plan->url);
+        return redirect()->route('details.plan.index', $plan->url)->with('success', 'Detalhe criado com sucesso!');
     }
 
     /*
@@ -84,8 +84,8 @@ class DetailPlanController extends Controller
         $plan = $this->plan->where('url', $urlPlan)->first();
         $detail = $this->repository->where('id', $idDetail)->first();
 
-        if (!$plan || !$detail) {
-            redirect()->back();
+        if (empty($plan) || empty($detail)) {
+            return redirect()->route('index')->with('error', 'Não existe detalhe para a identificação informada!');
         }
 
         return view('admin.pages.plans.details.edit', [
@@ -94,6 +94,7 @@ class DetailPlanController extends Controller
         ]);
     }
 
+    // Metodo para realizar o update do detalhe
     public function update (StoreUpdatePlanDetail $request, $urlPlan, $idDetail)
     {
         $plan = $this->plan->where('url', $urlPlan)->first();
@@ -105,23 +106,24 @@ class DetailPlanController extends Controller
 
        $detail->update($request->all());
 
-        return redirect()->route('details.plan.index', $plan->url);
+        return redirect()->route('details.plan.index', $plan->url)->with('success', 'Detalhe atualizado com sucesso!');
     }
 
+    // Metodo para deletar um detalhe
     public function destroy ($urlPlan, $idDetail)
     {
         $plan = $this->plan->where('url', $urlPlan)->first();
         $detail = $this->repository->where('id', $idDetail)->first();
 
-        if (empty($plan) && empty($detail)) {
-            return redirect()->back();
+        if (!$plan || !$detail) {
+            return redirect()->route('index')->with('error', 'Você não pode deletar um detalhe com outra identificação');
         }
 
         $detail->delete();
 
-        return view('details.plan.index', [
+        return view('index', [
             'plan' => $plan
-        ]);
+        ])->with('success', 'Detalhe excluido com sucesso!');
 
         //return redirect()->route('details.plan.index', $plan->id)->with('message', 'Detalhe deletado com sucesso');
     }

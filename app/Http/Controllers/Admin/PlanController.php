@@ -21,7 +21,7 @@ class PlanController extends Controller
     }
 
     /*
-     * Retornando meus planos com páginção e ordenando por nome
+     * Retornando meus planos com paginação e ordenando por nome
      */
     public function index ()
     {
@@ -32,9 +32,9 @@ class PlanController extends Controller
         ]);
     }
 
+    // Retornando a view de criação de planos
     public function create()
     {
-        // Retornando a view de criação de planos
         return view('admin.pages.plans.create');
     }
 
@@ -59,8 +59,10 @@ class PlanController extends Controller
     {
         $plan = Plan::where('id', $id)->first();
 
-        if (!$id) {
-            return view('admin.pages.plans.index');
+        if (!$plan) {
+            return redirect()->route('index', [
+                'plans' => $plan
+            ])->with('error', 'Não existe plano para a identificação informada');
         }
 
         return view ('admin.pages.plans.edit', [
