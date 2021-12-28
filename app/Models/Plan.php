@@ -23,6 +23,12 @@ class Plan extends Model
         return $this->hasMany(DetailPlan::class);
     }
 
+    public function tenants ()
+    {
+        return $this->hasMany(Tenant::class);
+    }
+
+    /* Para realizar a busca do filtro de plano */
     public function search($filter = null)
     {
         $results = $this->where('name', 'LIKE', "%$filter%")
