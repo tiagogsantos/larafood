@@ -27,6 +27,42 @@
 
         {{-- Name field --}}
         <div class="input-group mb-3">
+            <input type="text" name="cnpj" class="form-control @error('cnpj') is-invalid @enderror"
+                   value="{{ old('cnpj') }}" placeholder="cnpj" autofocus>
+
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-file-contract {{ config('adminlte.classes_auth_icon', '') }}"></span>
+                </div>
+            </div>
+
+            @error('cnpj')
+            <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
+        </div>
+
+        {{-- Name field --}}
+        <div class="input-group mb-3">
+            <input type="text" name="empresa" class="form-control @error('empresa') is-invalid @enderror"
+                   value="{{ old('empresa') }}" placeholder="Empresa" autofocus>
+
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-business-time {{ config('adminlte.classes_auth_icon', '') }}"></span>
+                </div>
+            </div>
+
+            @error('empresa')
+            <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
+        </div>
+
+        {{-- Name field --}}
+        <div class="input-group mb-3">
             <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
                    value="{{ old('name') }}" placeholder="{{ __('adminlte::adminlte.full_name') }}" autofocus>
 
