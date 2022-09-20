@@ -45,7 +45,7 @@ class PlanController extends Controller
     {
         $data = $request->all();
         // Recendo o meu nome para a minha url
-        $data['url'] = Str::slug($request->name);
+       // $data['url'] = Str::slug($request->name);
 
         $this->repository->create($data);
 

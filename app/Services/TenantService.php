@@ -7,8 +7,7 @@ use Illuminate\Support\Str;
 
 class TenantService
 {
-    private $plan;
-    private $data = [];
+    private $plan, $data = [];
 
     public function make (Plan $plan, array $data)
     {
@@ -21,10 +20,9 @@ class TenantService
         $user = $this->storeUser($tenant);
 
         return $user;
-
     }
 
-    public function storeTenant (array $data)
+    public function storeTenant ()
     {
         $data = $this->data;
 
@@ -39,12 +37,12 @@ class TenantService
         ]);
     }
 
-    public function storeUser ($tenant, array $data)
+    public function storeUser($tenant)
     {
-        $user =  $tenant->users()->create([
+        $user = $tenant->users()->create([
             'name' => $this->data['name'],
             'email' => $this->data['email'],
-            'password' => bcrypt($data['password']) ,
+            'password' => bcrypt($this->data['password']),
         ]);
 
         return $user;
