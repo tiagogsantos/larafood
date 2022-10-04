@@ -11,7 +11,14 @@
 |
 */
 
+use Illuminate\Support\Facades\Route;
+
 Route::prefix('admin')->namespace('Admin')->middleware('auth')->group(function () {
+
+
+    /* Rotas de Usuários */
+    Route::any('users/search', 'UserController@search')->name('users.search');
+    Route::resource('users', 'UserController');
 
     /* Rotas de Permissões de perfil */
     Route::get('profiles/{id}/permission/{idPermission}/detach', 'ACL\PermissionProfileController@detachPermissionProfile')->name('profiles.permission.detach');

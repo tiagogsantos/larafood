@@ -1,0 +1,103 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUpdateUsers;
+use App\Models\Profile;
+use App\Models\User;
+use Illuminate\Http\Request;
+
+class UserController extends Controller
+{
+    protected $repository;
+
+    // Construtor
+    public function __construct(User $users)
+    {
+        $this->repository = $users;
+    }
+
+    /*
+     * Retornando a view de perfis com os resultados
+     */
+    public function index()
+    {
+        $users = $this->repository->orderBy('name', 'asc')->paginate();
+
+        return view('admin.pages.users.index', [
+            'users' => $users
+        ]);
+    }
+
+    /*
+     * Retornando a view de criar perfil
+     */
+    public function create ()
+    {
+        return view ('admin.pages.users.create');
+    }
+
+    // Metodo para criar um perfil
+    public function store (StoreUpdateUsers $request)
+    {
+        $tenant = auth()->user()->tenant;
+        $data = $request->all();
+        $data['tenant_id'] = $tenant->id;
+
+        $this->repository->create($data);
+
+        return redirect()->route('users.index')->with('success', 'Perfil criado com sucesso!');
+    }
+
+    // Metodo para editar um perfil
+    public function edit ($id)
+    {
+        $users = User::where('id', $id)->first();
+
+        if (!$users) {
+            return redirect()->route('users.index', [
+                'users' => $users
+            ])->with('error', 'Não existe perfil para o usuário inserido!');
+        }
+
+        return view('admin.pages.users.edit', [
+            'users' => $users
+        ]);
+    }
+
+    // Metodo para realizar uma atualização de perfil
+    public function update (StoreUpdateUsers $request, $id)
+    {
+        $users = Profile::where('id', $id)->first();
+
+        $users->fill($request->all());
+
+        if (!$users->save()) {
+            return redirect()->back()->withInput()->withErrors();
+        }
+
+        return redirect()->back()->with('success', 'Perfil atualizado com sucesso!');
+    }
+
+    // Metodo para deletar um perfil
+    public function destroy ($id)
+    {
+        $users = Profile::where('id', $id)->first();
+
+        if (!$users) {
+            return redirect()->back()->with('error', 'Ooops, Algo deu errado');
+        }
+
+        $users->delete();
+
+        return redirect()->route('users.index', [
+            'users' => $users
+        ])->with('success', 'Perfil deletado com sucesso!');
+    }
+
+    public function search ()
+    {
+        dd('Teste');
+    }
+}
