@@ -44,6 +44,7 @@ class PlanController extends Controller
     public function store (StoreUpdatePlan $request)
     {
         $data = $request->all();
+
         // Recendo o meu nome para a minha url
        // $data['url'] = Str::slug($request->name);
 

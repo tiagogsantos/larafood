@@ -41,13 +41,20 @@ class UserController extends Controller
     // Metodo para criar um perfil
     public function store (StoreUpdateUsers $request)
     {
-        $tenant = auth()->user()->tenant;
-        $data = $request->all();
-        $data['tenant_id'] = $tenant->id;
+        $tenant = $request->input('tenant_id');
 
-        $this->repository->create($data);
+        $data = User::create([
+            'tenant_id' => $tenant,
+            'password' => bcrypt('password'),
+            'name' => $request->name,
+            'email' => $request->email
+        ]);
 
-        return redirect()->route('users.index')->with('success', 'Perfil criado com sucesso!');
+        if (!$data) {
+            return redirect()->back()->with('error', 'Não foi possível cadastrar o usuário');
+        }
+
+        return redirect()->back()->with('success', 'Usuário cadastrado com sucesso!');
     }
 
     // Metodo para editar um perfil
@@ -69,13 +76,15 @@ class UserController extends Controller
     // Metodo para realizar uma atualização de perfil
     public function update (StoreUpdateUsers $request, $id)
     {
-        $users = Profile::where('id', $id)->first();
-
-        $users->fill($request->all());
+        $users = User::where('id', $id)->first();
 
         if (!$users->save()) {
             return redirect()->back()->withInput()->withErrors();
         }
+
+        $data = $request->only(['name', 'email']);
+
+        $users->update($data);
 
         return redirect()->back()->with('success', 'Perfil atualizado com sucesso!');
     }

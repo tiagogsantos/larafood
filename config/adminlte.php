@@ -244,9 +244,14 @@ return [
             'icon'        => 'fas fa-lock'
         ],
         [
-            'text'        => 'Usuárioss',
+            'text'        => 'Usuários',
             'url'         => 'admin/users',
             'icon'        => 'fas fa-users'
+        ],
+        [
+            'text'        => 'Categorias',
+            'url'         => 'admin/categories',
+            'icon'        => 'fas fa-list'
         ],
     ],
 

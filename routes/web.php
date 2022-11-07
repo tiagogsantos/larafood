@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->namespace('Admin')->middleware('auth')->group(function () {
 
+    /* Rotas de Usuários */
+    Route::any('categories/search', 'CategoriesController@search')->name('categories.search');
+    Route::resource('categories', 'CategoriesController');
 
     /* Rotas de Usuários */
     Route::any('users/search', 'UserController@search')->name('users.search');
