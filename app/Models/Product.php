@@ -2,29 +2,31 @@
 
 namespace App\Models;
 
-use App\Tenant\Observers\TenantObserver;
 use App\Tenant\Traits\TenantTrait;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class Product extends Model
 {
     use TenantTrait;
 
-    protected $table = 'categories';
     protected $primaryKey = 'id';
 
+    protected $table = 'products';
+
     protected $fillable = [
-        'name',
+        'title',
         'url',
+        'price',
         'description',
-        'tenant_id'
+        'image'
     ];
 
     // Produto pode estar em mais de uma categoria
-    public function products ()
+    public function categories ()
     {
         // Relacionamento de muitos para muitos
-       return $this->belongsToMany(Product::class);
+       return $this->belongsToMany(Category::class);
     }
 
 }
+

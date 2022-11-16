@@ -15,6 +15,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->namespace('Admin')->middleware('auth')->group(function () {
 
+    /* Rotas de Categoria de produto */
+    Route::get('product/{id}/categories/{idCategory}/detach', 'CategoryProductController@detachPermissionProfile')->name('product.categories.detach');
+    Route::post('product/{id}/categories', 'CategoryProductController@attachCategoriProduct')->name('product.categories.attach');
+    Route::any('product/{id}/categories/create', 'CategoryProductController@categoriesAvailable')->name('product.categories.available');
+    Route::get('product/{id}/categories', 'CategoryProductController@categories')->name('product.permissions');
+    Route::get('categories/{id}/product', 'CategoryProductController@products')->name('categories.product');
+
+    /* Rotas de Produtos */
+    Route::any('products/search', 'ProductsController@search')->name('products.search');
+    Route::resource('products', 'ProductsController');
+
     /* Rotas de Usuários */
     Route::any('categories/search', 'CategoriesController@search')->name('categories.search');
     Route::resource('categories', 'CategoriesController');

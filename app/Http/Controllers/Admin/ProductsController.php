@@ -3,17 +3,18 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreUpdateCategory;
-use App\Models\Category;
+use App\Http\Requests\StoreUpdateProduct;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
-class CategoriesController extends Controller
+class ProductsController extends Controller
 {
     private $repository;
 
-    public function __construct(Category $category)
+    public function __construct(Product $product)
     {
-        $this->repository = $category;
+        $this->repository = $product;
     }
 
     /**
@@ -23,10 +24,10 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        $categorias = $this->repository->paginate();
+        $products = $this->repository->paginate();
 
-        return view('admin.pages.categories.index', [
-            'categories' => $categorias
+        return view('admin.pages.product.index', [
+            'products' => $products
         ]);
     }
 
@@ -37,7 +38,7 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.categories.create');
+        return view('admin.pages.product.create');
     }
 
     /**
@@ -46,13 +47,19 @@ class CategoriesController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreUpdateCategory $request)
+    public function store(StoreUpdateProduct $request)
     {
         $data = $request->all();
 
+        $tenant = auth()->user()->tenant;
+
+        if ($request->hasFile('image') && $request->image->isValid()) {
+            $data['image'] = $request->image->store("tenants/{$tenant->uuid}/products");
+        }
+
         $this->repository->create($data);
 
-        return redirect()->route('categories.index')->with('success', 'Categoria cadastrada com sucesso!');
+        return redirect()->route('products.index')->with('success', 'Produto cadastrado com sucesso!');
     }
 
     /**
@@ -76,12 +83,12 @@ class CategoriesController extends Controller
     {
         // $category = Category::where('id', $id)->first();
 
-        if (!$category = $this->repository->find($id)) {
+        if (!$products = $this->repository->find($id)) {
             return redirect()->back();
         }
 
-        return view('admin.pages.categories.edit', [
-            'category' => $category
+        return view('admin.pages.product.edit', [
+            'products' => $products
         ]);
     }
 
@@ -92,19 +99,27 @@ class CategoriesController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreUpdateProduct $request, $id)
     {
-        if (!$category = $this->repository->find($id)) {
+        if (!$products = $this->repository->find($id)) {
             return redirect()->back();
         }
 
         $data = $request->all();
 
-        $category->update($data);
+        $tenant = auth()->user()->tenant;
 
-        return view('admin.pages.categories.edit', [
-            'category' => $category
-        ]);
+        if ($request->hasFile('image') && $request->image->isValid()) {
+            if (Storage::exists($products->image)) {
+                Storage::delete($products->image);
+            }
+            $data['image'] = $request->image->store("tenants/{$tenant->uuid}/products");
+        }
+
+        $products->update($data);
+
+        return redirect()->back()->with('success', 'Produto atualizado com sucesso!');
+
     }
 
     /**
@@ -115,29 +130,33 @@ class CategoriesController extends Controller
      */
     public function destroy($id)
     {
-        if (!$category = $this->repository->find($id)) {
+        if (!$products = $this->repository->find($id)) {
             return redirect()->back();
         }
 
-        $category->delete();
+        if (Storage::exists($products->image)) {
+            Storage::delete($products->image);
+        }
 
-        return view('admin.pages.categories.index');
+        $products->delete();
+
+        return view('admin.pages.product.index');
     }
 
     public function search(Request $request)
     {
         $filters = $request->only('filter');
 
-        $categories = $this->repository
+        $products = $this->repository
             ->where(function ($query) use ($request) {
                 if ($request->filter) {
                     $query->orWhere('description', 'LIKE', "%{$request->filter}%");
-                    $query->orWhere('name', 'LIKE', "%$request->filter%");
+                    $query->orWhere('title', 'LIKE', "%$request->filter%");
                 }
             })
             ->latest()
             ->paginate();
 
-        return view('admin.pages.categories.index', compact('categories', 'filters'));
+        return view('admin.pages.categories.index', compact('products', 'filters'));
     }
 }

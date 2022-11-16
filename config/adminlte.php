@@ -253,6 +253,11 @@ return [
             'url'         => 'admin/categories',
             'icon'        => 'fas fa-list'
         ],
+        [
+            'text'        => 'Produtos',
+            'url'         => 'admin/products',
+            'icon'        => 'fas fa-shopping-basket'
+        ],
     ],
 
     /*
