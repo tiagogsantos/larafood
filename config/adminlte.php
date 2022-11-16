@@ -227,36 +227,41 @@ return [
     'menu' => [
         // Navbar items:
         [
-            'text'        => 'Planos',
-            'url'         => 'admin/plans',
-            'icon'        => 'fas fa-list-alt'
+            'text' => 'Planos',
+            'url' => 'admin/plans',
+            'icon' => 'fas fa-list-alt'
         ],
 
         [
-            'text'        => 'Perfil',
-            'url'         => 'admin/profiles',
-            'icon'        => 'fas fa-address-card'
+            'text' => 'Perfil',
+            'url' => 'admin/profiles',
+            'icon' => 'fas fa-address-card'
         ],
 
         [
-            'text'        => 'Permissões',
-            'url'         => 'admin/permissions',
-            'icon'        => 'fas fa-lock'
+            'text' => 'Permissões',
+            'url' => 'admin/permissions',
+            'icon' => 'fas fa-lock'
         ],
         [
-            'text'        => 'Usuários',
-            'url'         => 'admin/users',
-            'icon'        => 'fas fa-users'
+            'text' => 'Usuários',
+            'url' => 'admin/users',
+            'icon' => 'fas fa-users'
         ],
         [
-            'text'        => 'Categorias',
-            'url'         => 'admin/categories',
-            'icon'        => 'fas fa-list'
+            'text' => 'Categorias',
+            'url' => 'admin/categories',
+            'icon' => 'fas fa-list'
         ],
         [
-            'text'        => 'Produtos',
-            'url'         => 'admin/products',
-            'icon'        => 'fas fa-shopping-basket'
+            'text' => 'Produtos',
+            'url' => 'admin/products',
+            'icon' => 'fas fa-shopping-basket'
+        ],
+        [
+            'text' => 'Mesas',
+            'url' => 'admin/tables',
+            'icon' => 'fas fa-table'
         ],
     ],
 

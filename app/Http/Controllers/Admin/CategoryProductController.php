@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Http\Request;
 
 class CategoryProductController extends Controller
 {
     protected $profile, $permission;
 
-    public function __construct(Product $product, Category $category,)
+    public function __construct(Product $product, Category $category)
     {
         $this->product = $product;
         $this->category = $category;
@@ -24,7 +25,7 @@ class CategoryProductController extends Controller
 
         $categories = $product->categories()->paginate();
 
-        return view('admin.pages.profiles.permissions.permissions', [
+        return view('admin.pages.product.categories.categories', [
             'product' => $product,
             'categories' => $categories
         ]);
@@ -38,7 +39,7 @@ class CategoryProductController extends Controller
 
         $categories = $product->categories()->paginate();
 
-        return view('admin.pages.permissions.profiles.profile', [
+        return view('admin.pages.categories.products.product', [
             'product' => $product,
             'categories' => $categories
         ]);
@@ -54,7 +55,7 @@ class CategoryProductController extends Controller
 
         $categories = $product->categoriesAvailable($request->filter);
 
-        return view('admin.pages.profiles.permissions.available', [
+        return view('admin.pages.product.categories.available', [
             'product' => $product,
             'categories' => $categories,
             'filters' => $filters
@@ -63,7 +64,7 @@ class CategoryProductController extends Controller
 
     public function attachCategoriProduct(Request $request, $idProduct)
     {
-        if (!$product = $this->profile->find($idProduct)) {
+        if (!$product = $this->product->find($idProduct)) {
             return redirect()->back();
         }
 
@@ -73,23 +74,23 @@ class CategoryProductController extends Controller
                 ->with('info', 'Precisa escolher pelo menos uma categoria');
         }
 
-        $product->categories()->attach($request->permissions);
+        $product->categories()->attach($request->categories);
 
-        return redirect()->route('profiles.permissions', $product->id);
+        return redirect()->route('product.categories', $product->id);
     }
 
     public function detachPermissionProfile($idProduct, $idCategory)
     {
-        $product = $this->profile->find($idProduct);
-        $category = $this->permission->find($idCategory);
+        $product = $this->product->find($idProduct);
+        $category = $this->category->find($idCategory);
 
         if (!$product || !$category) {
             return redirect()->back();
         }
 
-        $product->permissions()->detach($category);
+        $product->categories()->detach($category);
 
-        return redirect()->route('profiles.permissions', $product->id);
+        return redirect()->route('product.categories', $product->id);
     }
 }
 

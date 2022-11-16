@@ -15,11 +15,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->namespace('Admin')->middleware('auth')->group(function () {
 
-    /* Rotas de Categoria de produto */
+    /* Rotas de Mesas */
+    Route::any('tables/search', 'TablesController@search')->name('tables.search');
+    Route::resource('tables', 'TablesController');
+
+    /* Rotas de Categoria de produto para vinculação */
     Route::get('product/{id}/categories/{idCategory}/detach', 'CategoryProductController@detachPermissionProfile')->name('product.categories.detach');
     Route::post('product/{id}/categories', 'CategoryProductController@attachCategoriProduct')->name('product.categories.attach');
     Route::any('product/{id}/categories/create', 'CategoryProductController@categoriesAvailable')->name('product.categories.available');
-    Route::get('product/{id}/categories', 'CategoryProductController@categories')->name('product.permissions');
+    Route::get('product/{id}/categories', 'CategoryProductController@categories')->name('product.categories');
     Route::get('categories/{id}/product', 'CategoryProductController@products')->name('categories.product');
 
     /* Rotas de Produtos */

@@ -53,7 +53,11 @@
                         <td>{{ $product->title }}</td>
                         <td>{{ $product->description }}</td>
                         <td><img style="max-width: 150px;" class="img-fluid" src="{{ url("storage/{$product->image}") }}" alt="{{ $product->title }}"></td>
-                        <td><a class="btn btn-secondary" href="{{ route('products.edit', $product->id) }}">Editar produto
+                        <td>
+                            <a class="btn btn-warning" href="{{ route('product.categories', $product->id) }}">Editar categoria
+                                <i class="fas fa-layer-group"></i></a>
+
+                            <a class="btn btn-secondary" href="{{ route('products.edit', $product->id) }}">Editar produto
                                 <i class="far fa-edit"></i></a>
                         </td>
                     </tr>
