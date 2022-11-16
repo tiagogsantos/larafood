@@ -15,16 +15,14 @@
             <form method="post" action="{{ route('categories.store') }}">
                 @csrf
 
-                <input type="hidden" name="tenant_id" value="{{ auth()->user()->tenant_id }}">
-
                 <div class="form-group">
                     <input class="form-control" type="text" name="name" value="{{ old('name') }}"
                            placeholder="Digite o nome da categoria" autocomplete="off">
                 </div>
 
                 <div class="form-group">
-                    <input class="form-control" type="description" name="description" value="{{ old('description') }}"
-                           placeholder="Digite a descrição" autocomplete="off">
+                    <textarea class="form-control" type="description" name="description" value="{{ old('description') }}"
+                              placeholder="Digite a descrição" autocomplete="off"> </textarea>
                 </div>
 
                 <button class="btn btn-success" type="submit">Criar categoria</button>

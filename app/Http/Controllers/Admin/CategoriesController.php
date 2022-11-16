@@ -74,7 +74,15 @@ class CategoriesController extends Controller
      */
     public function edit($id)
     {
-        //
+       // $category = Category::where('id', $id)->first();
+
+        if (!$category = $this->repository->find($id)) {
+            return redirect()->back();
+        }
+
+        return view('admin.pages.categories.edit', [
+            'category' => $category
+        ]);
     }
 
     /**
@@ -86,7 +94,15 @@ class CategoriesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if (!$category = $this->repository->find($id)) {
+            return redirect()->back();
+        }
+
+        $category->update($request->all());
+
+        return view('admin.pages.categories.edit', [
+            'category' => $category
+        ]);
     }
 
     /**
@@ -97,6 +113,29 @@ class CategoriesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (!$category = $this->repository->find($id)) {
+            return redirect()->back();
+        }
+
+        $category->delete();
+
+        return view('admin.pages.categories.index');
+    }
+
+    public function search(Request $request)
+    {
+        $filters = $request->only('filter');
+
+        $categories = $this->repository
+            ->where(function($query) use ($request) {
+                if ($request->filter) {
+                    $query->orWhere('description', 'LIKE', "%{$request->filter}%");
+                    $query->orWhere('name', 'LIKE',  "%$request->filter%");
+                }
+            })
+            ->latest()
+            ->paginate();
+
+        return view('admin.pages.categories.index', compact('categories', 'filters'));
     }
 }

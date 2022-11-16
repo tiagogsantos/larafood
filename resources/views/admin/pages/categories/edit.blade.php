@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Editar usuário {$user->name}')
+@section('title', 'Editar Categoria {$category->name}')
 
 @section('content_header')
-    <h1>Editar o - {{ $users->name }}</h1>
+    <h1>Editar o - {{ $category->name }}</h1>
 @stop
 
 @section('content')
@@ -12,28 +12,26 @@
 
     <div class="card">
         <div class="card-body">
-            <form method="POST" action="{{ route('users.update', $users->id) }}">
+            <form method="POST" action="{{ route('categories.update', $category->id) }}">
                 @csrf
                 @method('PUT')
 
                 <div class="form-group">
-                    <input class="form-control" type="text" name="name" value="{{ $users->name }}"
-                           placeholder="Digite seu nome">
+                    <input class="form-control" type="text" name="name" value="{{ $category->name }}"
+                           placeholder="Digite o nome da categoria">
                 </div>
 
                 <div class="input-group mb-3">
-                    <input class="form-control" type="text" name="email"
-                           value="{{ $users->email }}"
-                           placeholder="Digite o preço do curso">
+                    <textarea class="form-control"> {{ $category->description }}</textarea>
                 </div>
 
-                <button class="btn btn-success" type="submit">Atualizar Usuário</button>
+                <button class="btn btn-success" type="submit">Atualizar Categoria</button>
             </form>
 
-            <form action="{{ route('users.destroy', $users->id) }}" method="post">
+            <form action="{{ route('categories.destroy', $category->id) }}" method="post">
                 @csrf
                 @method('DELETE')
-                <button class="btn btn-danger mt-4" type="submit">Excluir Usuário</button>
+                <button class="btn btn-danger mt-4" type="submit">Excluir Categoria</button>
             </form>
         </div>
     </div>
