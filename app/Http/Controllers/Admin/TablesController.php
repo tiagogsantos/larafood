@@ -3,13 +3,19 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Table;
 use Illuminate\Http\Request;
 
 class TablesController extends Controller
 {
-    public function __construct()
-    {
 
+    protected $table;
+
+    public function __construct(Table $table)
+    {
+        $this->repository = $table;
+
+        $this->middleware(['can:mesas']);
     }
 
     /**
@@ -19,7 +25,11 @@ class TablesController extends Controller
      */
     public function index()
     {
-        //
+        $tables = $this->repository->paginate();
+
+        return view('admin.pages.tables.index', [
+            'tables' => $tables
+        ]);
     }
 
     /**
@@ -29,7 +39,7 @@ class TablesController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.pages.tables.create');
     }
 
     /**
@@ -40,7 +50,11 @@ class TablesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $this->repository->create($data);
+
+        return redirect()->route('tables.index')->with('success', 'Mesa cadastrada com sucesso!');
     }
 
     /**
@@ -62,7 +76,14 @@ class TablesController extends Controller
      */
     public function edit($id)
     {
-        //
+        if (!$table = $this->repository->find($id)) {
+            return redirect()->back();
+        }
+
+        return view('admin.pages.tables.edit', [
+            'table' => $table
+        ]);
+
     }
 
     /**
@@ -86,5 +107,22 @@ class TablesController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function search(Request $request)
+    {
+        $filters = $request->only('filter');
+
+        $categories = $this->repository
+            ->where(function ($query) use ($request) {
+                if ($request->filter) {
+                    $query->orWhere('description', 'LIKE', "%{$request->filter}%");
+                    $query->orWhere('name', 'LIKE', "%$request->filter%");
+                }
+            })
+            ->latest()
+            ->paginate();
+
+        return view('admin.pages.categories.index', compact('categories', 'filters'));
     }
 }

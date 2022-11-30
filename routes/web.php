@@ -38,6 +38,13 @@ Route::prefix('admin')->namespace('Admin')->middleware('auth')->group(function (
     Route::any('users/search', 'UserController@search')->name('users.search');
     Route::resource('users', 'UserController');
 
+    /* Rotas de planos e perfil */
+    Route::get('plans/{id}/profile/{idProfile}/detach', 'ACL\PlanProfileController@detachProfilePlan')->name('plans.profile.detach');
+    Route::post('plans/{id}/profiles', 'ACL\PlanProfileController@attachProfilesPlan')->name('plans.profiles.attach');
+    Route::any('plans/{id}/profiles/create', 'ACL\PlanProfileController@profilesAvailable')->name('plans.profiles.available');
+    Route::get('plans/{id}/profiles', 'ACL\PlanProfileController@profiles')->name('plans.profiles');
+    Route::get('profiles/{id}/plans', 'ACL\PlanProfileController@plans')->name('profiles.plans');
+
     /* Rotas de Permissões de perfil */
     Route::get('profiles/{id}/permission/{idPermission}/detach', 'ACL\PermissionProfileController@detachPermissionProfile')->name('profiles.permission.detach');
     Route::post('profiles/{id}/permissions', 'ACL\PermissionProfileController@attachPermissionsProfile')->name('profiles.permissions.attach');
@@ -51,7 +58,9 @@ Route::prefix('admin')->namespace('Admin')->middleware('auth')->group(function (
 
 
     /* Rotas dos perfils */
+    // Com o middleware eu só acesso se eu tiver a permissão
     Route::resource('profiles', 'ACL\ProfileController');
+   // Route::resource('profiles', 'ACL\ProfileController')->middleware('can:profiles');
 
     /*
     Route::delete('profiles/{id}', 'ProfileController@destroy')->name('profiles.destroy');

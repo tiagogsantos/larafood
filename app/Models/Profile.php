@@ -14,13 +14,15 @@ class Profile extends Model
         'description'
     ];
 
-    /*
-     * Relacionamento de permission
-     */
-
+    // Relacionamento de permission
     public function permissions()
     {
         return $this->belongsToMany(Permission::class);
+    }
+
+    public function plans()
+    {
+        return $this->belongsToMany(Plan::class);
     }
 
     public function permissionsAvailable($filter = null)
@@ -38,6 +40,4 @@ class Profile extends Model
 
         return $permissions;
     }
-
-
 }

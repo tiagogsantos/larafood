@@ -17,13 +17,18 @@ class Plan extends Model
      * Um Plano para varios detalhes
      */
 
-    public function details ()
+    // Relacionamento de 1 para muitos
+    public function details()
     {
-        // Relacionamento de 1 para muitos
         return $this->hasMany(DetailPlan::class);
     }
 
-    public function tenants ()
+    public function profiles()
+    {
+        return $this->belongsToMany(Profile::class);
+    }
+
+    public function tenants()
     {
         return $this->hasMany(Tenant::class);
     }
@@ -32,10 +37,26 @@ class Plan extends Model
     public function search($filter = null)
     {
         $results = $this->where('name', 'LIKE', "%$filter%")
-                        ->orwhere('description', 'LIKE', "%$filter%")
-                        ->paginate();
+            ->orwhere('description', 'LIKE', "%$filter%")
+            ->paginate();
 
         return $results;
+    }
+
+    public function profilesAvailable($filter = null)
+    {
+        $profiles = Profile::whereNotIn('profiles.id', function($query) {
+            $query->select('plan_profile.profile_id');
+            $query->from('plan_profile');
+            $query->whereRaw("plan_profile.plan_id={$this->id}");
+        })
+            ->where(function ($queryFilter) use ($filter) {
+                if ($filter)
+                    $queryFilter->where('profiles.name', 'LIKE', "%{$filter}%");
+            })
+            ->paginate();
+
+        return $profiles;
     }
 
 }

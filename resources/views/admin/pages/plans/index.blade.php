@@ -53,6 +53,7 @@
                           <td>R$ {{ number_format($plan->price, 2, ',', '.')  }}</td>
                           <td><a class="btn btn-secondary" href="{{ route('plans.edit', $plan->id) }}">Ver <i class="far fa-edit"></i></a>
                               <a class="btn btn-info" href="{{ route('details.plan.index', $plan->url) }}">Ver Detalhes do plano<i class="far fa-edit"></i></a>
+                              <a href="{{ route('plans.profiles', $plan->id) }}" class="btn btn-warning"><i class="fas fa-address-book"></i></a>
                           </td>
                         </tr>
                     @endforeach

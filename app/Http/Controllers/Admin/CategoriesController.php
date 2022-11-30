@@ -14,6 +14,8 @@ class CategoriesController extends Controller
     public function __construct(Category $category)
     {
         $this->repository = $category;
+
+        $this->middleware(['can:categorias']);
     }
 
     /**
@@ -80,7 +82,7 @@ class CategoriesController extends Controller
             return redirect()->back();
         }
 
-        return view('admin.pages.categories.edit', [
+        return view('admin.pages.tables.edit', [
             'category' => $category
         ]);
     }

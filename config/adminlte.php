@@ -246,22 +246,26 @@ return [
         [
             'text' => 'Usuários',
             'url' => 'admin/users',
-            'icon' => 'fas fa-users'
+            'icon' => 'fas fa-users',
+            'can' => 'usuarios'
         ],
         [
             'text' => 'Categorias',
             'url' => 'admin/categories',
-            'icon' => 'fas fa-list'
+            'icon' => 'fas fa-list',
+            'can' => 'categorias'
         ],
         [
             'text' => 'Produtos',
             'url' => 'admin/products',
-            'icon' => 'fas fa-shopping-basket'
+            'icon' => 'fas fa-shopping-basket',
+            'can' => 'produtos'
         ],
         [
             'text' => 'Mesas',
             'url' => 'admin/tables',
-            'icon' => 'fas fa-table'
+            'icon' => 'fas fa-table',
+            'can' => 'mesas'
         ],
     ],
 
